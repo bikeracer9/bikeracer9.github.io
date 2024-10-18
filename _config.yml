@@ -1,0 +1,6 @@
+title: bikeracer9 CRCP 3320 - Fall 2024
+description: CRCP 3320 Assignment
+
+remote_theme: pages-themes/cayman@v0.2.0
+plugins:
+  - jekyll-remote-theme
