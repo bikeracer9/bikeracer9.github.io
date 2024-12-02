@@ -8,8 +8,6 @@
 * It calls the Circle function to create many different circles.
 */
 
-
-//initialize variables:
 let circles = [];
 let circleCount = 25;
 
@@ -20,6 +18,17 @@ let randomC4;
 let randomC5;
 let randomC6;
 
+var incriment = 0.1; //incriments the perlin noise 
+var scl = 10; //scale to determine grid cells 
+var cols, rows; //columns and rows for the flow field grid
+
+var zOffset = 0; //z axis offset
+
+var fr; //frame rate
+
+var particles = []; //array to store Particle objects
+
+var flowfield; //array to store flow field vectors
 
 /*
 * This is the setup() function.
@@ -36,8 +45,11 @@ function setup()
   randomC5 = random( 0, random(255) );
   randomC6 = random(255);
 
-  initCircles(); //initializes the circles.
-}
+  initCircles(); //initializes the white circles.
+  initParticles(); //initializes the Perlin Noise Particles
+  // background(51);
+
+} //end of setup()
 
 
 /*
@@ -45,14 +57,31 @@ function setup()
 */
 function draw()
 { 
-  drawBackground(); //calls the drawBackground function.
-  for(let circle of circles) //for loop to loop through circles and move & draw them.
-  {
-    circle.update();
-    circle.display();
-  }
-}
+  drawBackground(); 
 
+  perlinParticlesDraw();
+
+  circlesDraw();
+} //end of draw()
+
+/*
+*This is the initParticles() function.
+* This function is called in the setup() and creates and initializes all the Perlin Particles.
+*/
+function initParticles()
+{
+
+  cols = floor(width / scl);
+  rows = floor(height / scl);
+  fr = createP('');
+
+  flowfield = new Array(cols * rows);
+
+  for (var i = 0; i < 350; i++) 
+  {
+    particles[i] = new perlin_particle();
+  }
+}//end of initParticles()
 
 /*
 * This is the initCircles() function.
@@ -64,7 +93,7 @@ function initCircles()
   {
     circles.push( new Circle( random(width), random(height) ) );
   }
-}
+} //end of initCircles()
 
 
 /*
@@ -83,5 +112,55 @@ function drawBackground()
     
     stroke(c);
     line(0, y, width, y);
-  }
+  }//end of drawBackground()
 }
+
+  /*
+  * This is the perlinParticlesDraw() function
+  *This function is called in the draw() function 
+  * This function draws & updates all the particles for the perlin noise thingy.
+  */
+  function perlinParticlesDraw()
+  {
+    var yOffset = 0;
+    for (var y = 0; y < rows; y++) 
+    {
+      var xOffset = 0;
+      for (var x = 0; x < cols; x++) 
+      {
+        var index = x + y * cols;
+        var angle = noise(xOffset, yOffset, zOffset) * TWO_PI * 4.2;
+        var v = p5.Vector.fromAngle(angle);
+        v.setMag(1);
+        flowfield[index] = v;
+        xOffset += incriment;
+        stroke(0, 50);
+      }
+
+      yOffset += incriment;
+
+      zOffset += 0.0007;
+
+      for (var i = 0; i < particles.length; i++) 
+      {
+        particles[i].followOther(flowfield);
+        particles[i].updateParticles();
+        particles[i].checkEdges();
+        particles[i].showParticles();
+      }
+    }
+  }
+
+  /*
+  * This is the circlesDraw() function
+  *This function is called in the draw() function 
+  * This function draws & updates all the circles.
+  */
+  function circlesDraw()
+  {
+    for(let circle of circles) 
+    {
+      circle.update();
+      circle.display();
+    }
+  }

@@ -14,8 +14,8 @@ class Circle
         this.x = x;
         this.y = y;
         this.r = random(20,50); //sets radius to be a random number from 20 to 50
-        this.xVel = random(-1,1); //xVelocity randomly set from -1 to 1
-        this.yVel = random(-2, 2); //yVelocity randomly set from -2 to 2
+        this.xVel = random(-6,6); //xVelocity randomly set from -1 to 1
+        this.yVel = random(-4, 5); //yVelocity randomly set from -2 to 2
     }
 
 
