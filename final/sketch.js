@@ -9,7 +9,8 @@
 */
 
 let circles = [];
-let circleCount = 25;
+let extraCircleCount;
+let circleCount = 25; //+ extraCircleCount;
 
 let randomC1;
 let randomC2;
@@ -30,6 +31,9 @@ var particles = []; //array to store Particle objects
 
 var flowfield; //array to store flow field vectors
 
+let flies = []; //array to store Fly objects
+var fliesCount = 30; // num of total flies being created
+
 /*
 * This is the setup() function.
 */
@@ -45,9 +49,9 @@ function setup()
   randomC5 = random( 0, random(255) );
   randomC6 = random(255);
 
-  initCircles(); //initializes the white circles.
-  initParticles(); //initializes the Perlin Noise Particles
-  // background(51);
+  initCircles();  //initializes the white circles.
+  initParticles();//initializes the Perlin Noise Particles
+  initFlies();    //initializes the Flies.
 
 } //end of setup()
 
@@ -62,7 +66,16 @@ function draw()
   perlinParticlesDraw();
 
   circlesDraw();
+
+  fliesDraw();
 } //end of draw()
+
+
+function mousePressed()
+{
+  circles.push(new Circle(mouseX, mouseY));
+}
+
 
 /*
 *This is the initParticles() function.
@@ -95,6 +108,13 @@ function initCircles()
   }
 } //end of initCircles()
 
+function initFlies()
+{
+    for (let i = 0; i < fliesCount; i++) 
+    {
+      flies.push(new Fly());
+    }
+}
 
 /*
 * This is the drawBackground() function.
@@ -153,7 +173,7 @@ function drawBackground()
 
   /*
   * This is the circlesDraw() function
-  *This function is called in the draw() function 
+  * This function is called in the draw() function 
   * This function draws & updates all the circles.
   */
   function circlesDraw()
@@ -162,5 +182,19 @@ function drawBackground()
     {
       circle.update();
       circle.display();
+    }
+  }
+
+  /*
+  * This is the fliesDraw() function
+  * This function is called in the draw() function 
+  * This function draws & updates all the flies.
+  */
+  function fliesDraw()
+  {
+    for (let fly of flies) 
+    {
+      fly.update();
+      fly.display();
     }
   }
