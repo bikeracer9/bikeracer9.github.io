@@ -3,6 +3,7 @@
 Prescott is a Junior at Southern Methodist University. He is majoring in Creative Computing and minoring in Graphic Design and Advertising. His Github page is: [here](https://github.com/bikeracer9). I enjoy airbrushing art onto clothes, watching anime, and playing video games!
 
 # Final Project Sketches
+
 <body> 
 INSTRUCTIONS FOR PROJECT: 
               [MouseClick] --> Draws and displays a new Circle at mouse X & Y coords
@@ -10,4 +11,5 @@ INSTRUCTIONS FOR PROJECT:
             [Refresh Page] --> Changes everything (background colors, placement of circles, flies, perlin noise generator)
 
 </body>
+
 [Final Lava Lamp](./final/index.html)
